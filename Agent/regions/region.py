@@ -18,7 +18,9 @@ class Region:
         outputs = []
         for net in self.areas:
             net.process(inputs)
+            # Issue Trace here in net.getOutputs()
             outputs.append(net.getOutputs())
+        #print(outputs)
         return outputs
 
     def encode(self,inputs):

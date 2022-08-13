@@ -18,7 +18,8 @@ class Brain:
         self.processing = Processor(dims[0],dims[1])
         self.memory = Memory(dims[0],dims[1])
         self.emotion = Emotion(dims[0],dims[1])
-        self.encoder = feed_forward_nn.FFNN([dims[0],dims[1]])
+
+        self.encoder = feed_forward_nn.FFNN([dims[0],dims[0]])
         self.decoder = feed_forward_nn.FFNN([dims[1],dims[1]]) 
         self.regions = [self.processing,self.memory,self.emotion]
 
@@ -40,22 +41,26 @@ class Brain:
 
     def process(self):
         outputs = []
+        #print(f"Pre encoding : {self.inputs}")
         inputs = self.encode(self.inputs)
+        #print(f"Post encoding : {inputs}") # Only 1 long
         self.stored_inputs.append(inputs)
         self.stored_inputs = self.stored_inputs[-5:]
         # First check memory to see if previous inputs are similar (Maybe check similarity of multiple inputs?)
         # If similar, skip processing and use memory
-        loaded_memory = self.memory.check_memory(inputs,self.memory_strength_requirement)
-        if loaded_memory != None:
-            return loaded_memory
 
+        #loaded_memory = self.memory.check_memory(inputs,self.memory_strength_requirement)
+        #if loaded_memory != None:
+        #    return loaded_memory
+        #print("here")
         # Temporary Fix for processing
+        #print(inputs)
         new_inputs = self.processing.encode(inputs)
+        # Issue here?
         new_inputs = self.processing.getOutputs(new_inputs)
         new_inputs = [item for sublist in new_inputs for item in sublist]
         new_inputs = self.processing.decode(new_inputs)
         outputs.append(new_inputs)
-        
         outputs = [item for sublist in outputs for item in sublist]
         outputs = self.decode(outputs)
         # Create Memory if positive state
@@ -81,10 +86,10 @@ class Brain:
     def getInputs(self):
         self.inputs = []
         self.sensors[0].run()
-        self.sensors[1].run()
+        #self.sensors[1].run()
         self.inputs.extend([pyautogui.position()[0]/pyautogui.size()[0],pyautogui.position()[1]/pyautogui.size()[1]])
         self.inputs.extend(self.sensors[0].getOutput())
-        self.inputs.extend(self.sensors[1].getOutput())
+        #self.inputs.extend(self.sensors[1].getOutput())
             
 
 '''

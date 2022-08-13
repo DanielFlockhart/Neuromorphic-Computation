@@ -12,7 +12,8 @@ from cells.neuron import Neuron
 class SNN:
     def __init__(self,dims):
         # Dictionary of all the cell types
-        self.dims = [dims[0],random.randint(0,dims[0]*dims[1]),dims[1]]
+    
+        self.dims = [dims[0],random.randint(min(dims[0],dims[1]),max(dims[0]*dims[1],100)),dims[1]]
         self.cell_types = {
             "Sensor":Sensor_Neuron,
             "Neuron":Neuron,
@@ -35,7 +36,8 @@ class SNN:
     def createConnections(self,density=0.2):
         # Create connections between nodes
         for node in self.nodes:
-            for x in range(int(density * len(self.nodes))):
+            
+            for x in range(int(density * self.dims[1] * self.dims[1])):
                 # Get a random node
                 rand_node = random.choice(self.nodes)
                 # If the random node is not the same as the current node and is not a sensor
@@ -50,6 +52,7 @@ class SNN:
         for node in self.nodes:
             if node.getType() == "Motor":
                 output_nodes.append(node)
+        
         return [1 if node.isFire() else 0 for node in output_nodes]
     
     def process(self,inputs):

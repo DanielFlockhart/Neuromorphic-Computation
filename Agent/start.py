@@ -4,10 +4,12 @@ from brain import Brain
 from visualiser import Visualiser
 
 if __name__ == "__main__":
-    brain = Brain(512,31)
+    brain = Brain(528,10)
     brain.build()
-    for x in range(100):
+    total = 0
+    for x in range(100000):
         brain.getInputs()
         outputs = brain.process()
+        print(sum(outputs)/100)
         #brain.controller.process(outputs)
         

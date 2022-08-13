@@ -1,7 +1,6 @@
 import random,math
 '''
 Superclass of all cells.
-Can get all the cells close to it and their distances.
 This has basic functionality for all cells
 '''
 class Cell:

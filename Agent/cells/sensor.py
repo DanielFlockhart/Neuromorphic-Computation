@@ -18,7 +18,12 @@ class Sensor_Neuron(Cell):
         random.shuffle(self.conn_f)
         # For each connection to the cell, add the current to the cell
         for connection in self.conn_f:
+
+            # NO CONNECTIONS in self.conn_f
+
+
             # Conservation of charge law, some of the current is used up and released as heat, kinetic energy etc
             connection[0].current += (self.current/len(self.conn_f)*connection[1])
+            #print("BRO " + connection[0].current)
         # Current is used up
         self.current = 0

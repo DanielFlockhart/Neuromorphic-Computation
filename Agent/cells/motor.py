@@ -15,6 +15,7 @@ class Motor_Neuron(Cell):
         pass
     
     def isFire(self):
+        
         if self.current >= 1:
             self.current = 0
             return True
